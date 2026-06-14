@@ -10,6 +10,6 @@
 		 
 		 pip install -r requirements.txt
 		 
-设置PATCH_H5_DIR & WSI_ROOT & MODEL_PATH & OUT_DIR
+设置PATCH_H5_DIR & WSI_ROOT & MODEL_PATH & OUT_DIR等文件路径。
 
-运行：python classify_orion_crc_patches.py 
+运行：python classify_orion_crc_patches.py
