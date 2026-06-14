@@ -2,6 +2,7 @@ import os
 import h5py
 import argparse
 import numpy as np
+from contextlib import redirect_stdout
 
 
 DEFAULT_LABEL_NAMES = [
@@ -86,20 +87,37 @@ def check_one_h5(h5_path):
 
 def main():
     parser = argparse.ArgumentParser()
-    parser.add_argument("--path", default='/yzyStorage/public/Feature_hy/Feature_ALL_univ1/output/overlap_overlap0_batchsize224_univ2/20.0x_224px_0px_overlap/patch_cls_h5', help="patch_cls.h5 file or directory")
+    parser.add_argument(
+        "--path",
+        default="/yzyStorage/public/Feature_hy/Feature_ALL_univ1/output/overlap_overlap0_batchsize224_univ2/20.0x_224px_0px_overlap/patch_cls_h5",
+        help="patch_cls.h5 file or directory"
+    )
     args = parser.parse_args()
 
-    if os.path.isdir(args.path):
-        h5_files = sorted([
-            os.path.join(args.path, f)
-            for f in os.listdir(args.path)
-            if f.endswith(".h5")
-        ])
-    else:
-        h5_files = [args.path]
+    save_dir = "result/"
+    os.makedirs(save_dir, exist_ok=True)
 
-    for h5_path in h5_files:
-        check_one_h5(h5_path)
+    save_path = os.path.join(save_dir, "patch_cls_statistics.txt")
+
+    with open(save_path, "w", encoding="utf-8") as f:
+        with redirect_stdout(f):
+
+            if os.path.isdir(args.path):
+                h5_files = sorted([
+                    os.path.join(args.path, x)
+                    for x in os.listdir(args.path)
+                    if x.endswith(".h5")
+                ])
+            else:
+                h5_files = [args.path]
+
+            print("Total h5 files:", len(h5_files))
+            print()
+
+            for h5_path in h5_files:
+                check_one_h5(h5_path)
+
+    print(f"Saved to: {save_path}")
 
 
 if __name__ == "__main__":
