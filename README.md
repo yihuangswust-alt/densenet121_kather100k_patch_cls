@@ -5,9 +5,9 @@
 
 安装环境：
 
-         conda create -n crc_cls python=3.10 -y   
+         conda create -n patch_cls python=3.10 -y   
          
-		 conda activate crc_cls
+		 conda activate patch_cls
 		 
 		 pip install -r requirements.txt
 		 
